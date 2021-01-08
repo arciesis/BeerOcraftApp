@@ -33,8 +33,9 @@ public class App extends Application {
         System.out.println("Start of the primary stage");
         //Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
         primaryStage.setTitle("BeerOCraft");
-        primaryScene = new Scene(loadFXML("/MainView"));
+        primaryScene = new Scene(loadFXML("/MainView"),1280,720);
         primaryStage.setScene(primaryScene);
+        primaryStage.centerOnScreen();
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> {

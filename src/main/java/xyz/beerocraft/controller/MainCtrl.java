@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import xyz.beerocraft.model.ConsumableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
+import xyz.beerocraft.model.Hop;
 import xyz.beerocraft.model.Malt;
 
 import java.io.IOException;
@@ -58,10 +59,10 @@ public class MainCtrl implements Initializable {
      * The list view that contains oll the fermentables of the db of the main window
      */
     @FXML
-    private ListView<String> listOfFermentablesTab;
+    private ListView<String> fermentablesListView;
 
     /**
-     * The Search malt text fieldof the main window
+     * The Search malt text field of the main window
      */
     @FXML
     private TextField textfieldSearchMalts;
@@ -71,6 +72,18 @@ public class MainCtrl implements Initializable {
      */
     @FXML
     private Tab hopsTab;
+
+    /**
+     * The textfield to search into the hops
+     */
+    @FXML
+    private TextField hopSerchingTextField;
+
+    /**
+     * The list view thatr contains the hops
+     */
+    @FXML
+    private ListView<Hop> hopsListView;
 
     /**
      * The Yeasts tabof the main window
@@ -127,7 +140,7 @@ public class MainCtrl implements Initializable {
     private Button maltModifyButton;
 
     /**
-     * The add button fermentableof the main window
+     * The add button fermentable of the main window
      */
     @FXML
     private Button maltAddMaltButton;
@@ -164,7 +177,8 @@ public class MainCtrl implements Initializable {
         dao = new ConsumableDAO();
 
         loadMaltsToFermentablesTabListView();
-        this.listOfFermentablesTab.setItems(malts);
+        System.out.println(fermentablesListView.toString());
+        this.fermentablesListView.setItems(malts);
         this.textfieldSearchMalts.setPromptText("Weyermann");
 
         maltsMouseClicked();
@@ -192,9 +206,9 @@ public class MainCtrl implements Initializable {
         //String maltName = listOfFermentablesTab.getSelectionModel().getSelectedItems().get(0);
         //PreparedStatement pstmt = DBHandler.myConn.prepareStatement("SELECT")
 
-        //TODO refactor en DAO
+        //TODO refactor vers DAO
 
-        listOfFermentablesTab.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
+        this.fermentablesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 System.out.println("Selectioned malt : " + newValue);
@@ -253,9 +267,9 @@ public class MainCtrl implements Initializable {
         }
 
         if (this.textfieldSearchMalts.getText().equalsIgnoreCase("")) {
-            this.listOfFermentablesTab.setItems(malts);
+            this.fermentablesListView.setItems(malts);
         } else {
-            this.listOfFermentablesTab.setItems(searchingMalts);
+            this.fermentablesListView.setItems(searchingMalts);
 
         }
     }
@@ -311,6 +325,7 @@ public class MainCtrl implements Initializable {
             Stage addAFermentablePopUp = new Stage();
             addAFermentablePopUp.setTitle("Add a fermentable");
             addAFermentablePopUp.setScene(new Scene(root, 800, 450));
+            addAFermentablePopUp.centerOnScreen();
             addAFermentablePopUp.show();
             // Hide this current window (if this is what you want)
             //((Node)(event.getSource())).getScene().getWindow().hide();
@@ -335,12 +350,12 @@ public class MainCtrl implements Initializable {
         if (confirmYouWantToDeleteFermentableAlert.getResult() == ButtonType.YES) {
 
             System.out.println("remove fermentable confirmed");
-            String name = listOfFermentablesTab.getSelectionModel().getSelectedItem();
+            String name = fermentablesListView.getSelectionModel().getSelectedItem();
 
             dao.deleteFermentableOfDB(name);
             malts.clear();
             loadMaltsToFermentablesTabListView();
-            listOfFermentablesTab.setItems(malts);
+            fermentablesListView.setItems(malts);
 
         }
     }
@@ -355,7 +370,7 @@ public class MainCtrl implements Initializable {
     private void handleModifyMaltButton(ActionEvent event) {
         System.out.println("Modify fermentable Button clicked");
 
-        String nameOfTheFermentable = listOfFermentablesTab.getSelectionModel().getSelectedItem();
+        String nameOfTheFermentable = fermentablesListView.getSelectionModel().getSelectedItem();
         Malt modifiedMalt = dao.selectFermentableFromName(nameOfTheFermentable);
 
         if (modifiedMalt != null) {
@@ -390,8 +405,8 @@ public class MainCtrl implements Initializable {
 
                     malts.clear();
                     loadMaltsToFermentablesTabListView();
-                    listOfFermentablesTab.setItems(malts);
-                    listOfFermentablesTab.getSelectionModel().select(nameOfTheFermentable);
+                    fermentablesListView.setItems(malts);
+                    fermentablesListView.getSelectionModel().select(nameOfTheFermentable);
 
                 } else {
 
