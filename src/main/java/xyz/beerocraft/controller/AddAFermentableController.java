@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import xyz.beerocraft.model.FermentableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
-import xyz.beerocraft.model.Malt;
+import xyz.beerocraft.model.Fermentable;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -17,8 +17,8 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 
-import static xyz.beerocraft.model.Malt.maltTypeChoices;
-import static xyz.beerocraft.model.Malt.malts;
+import static xyz.beerocraft.model.Fermentable.maltTypeChoices;
+import static xyz.beerocraft.model.Fermentable.malts;
 
 public class AddAFermentableController implements Initializable {
 
@@ -159,7 +159,7 @@ public class AddAFermentableController implements Initializable {
                                     else ebc = (lovibond * 2.65f) - 1.2f;
 
 
-                                    Malt m = new Malt(nameOfNewFermenatble, ebc, lovibond, potential, type);
+                                    Fermentable m = new Fermentable(nameOfNewFermenatble, ebc, lovibond, potential, type);
                                     dao.addMaltToDB(m);
 
                                     malts.add(m.getName());
@@ -238,7 +238,7 @@ public class AddAFermentableController implements Initializable {
      */
     private void loadFermentableToComboBoxOnAdd() {
         if (addAFermentableTypeComboBox.getItems().isEmpty() && maltTypeChoices.isEmpty())
-            maltTypeChoices.addAll(Malt.TYPE_POSSIBLE);
+            maltTypeChoices.addAll(Fermentable.TYPE_POSSIBLE);
 
         addAFermentableTypeComboBox.getItems().addAll(maltTypeChoices);
     }

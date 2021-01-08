@@ -1,5 +1,5 @@
 /**
- * @author Arciesis https://guthub.com/arciesis/BeerOCraft/
+ * @author Arciesis https://guthub.com/arciesis/BeerOcraftApp/
  */
 
 package xyz.beerocraft.controller;
@@ -20,19 +20,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import xyz.beerocraft.language.Translation;
 import xyz.beerocraft.model.FermentableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
 import xyz.beerocraft.model.Hop;
-import xyz.beerocraft.model.Malt;
+import xyz.beerocraft.model.Fermentable;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static xyz.beerocraft.model.Malt.*;
+import static xyz.beerocraft.model.Fermentable.*;
 
 public class MainCtrl implements Initializable {
 
@@ -192,6 +194,10 @@ public class MainCtrl implements Initializable {
 
         maltNameTextField.setDisable(true);
 
+
+        maltAddMaltButton.setText(Translation.getString("addfermentable"));
+
+
     }
 
 
@@ -202,6 +208,8 @@ public class MainCtrl implements Initializable {
         System.out.println("Initialisation of the window ");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/data/arciesis/dev/java/BeerOCraft/src/resources/MainView.fxml"));
         loader.setController(this);
+
+
     }
 
     /**
@@ -218,7 +226,7 @@ public class MainCtrl implements Initializable {
 
                 System.out.println("Selectioned malt : " + newValue);
 
-                Malt malt = fermentableDAO.getAllValuesOfAFermentable(newValue);
+                Fermentable malt = fermentableDAO.getAllValuesOfAFermentable(newValue);
 
                 maltNameTextField.setText(malt.getName());
                 maltEBCTextField.setText(String.valueOf(malt.getEbc()));
@@ -278,7 +286,7 @@ public class MainCtrl implements Initializable {
     private void loadFermentableToComboBox() {
         if (maltTypeComboBox.getItems().isEmpty()) {
 
-            maltTypeChoices.addAll(Malt.TYPE_POSSIBLE);
+            maltTypeChoices.addAll(Fermentable.TYPE_POSSIBLE);
             maltTypeComboBox.getItems().addAll(maltTypeChoices);
 
         }
@@ -346,7 +354,7 @@ public class MainCtrl implements Initializable {
         System.out.println("Modify fermentable Button clicked");
 
         String nameOfTheFermentable = fermentablesListView.getSelectionModel().getSelectedItem();
-        Malt modifiedMalt = fermentableDAO.selectFermentableFromName(nameOfTheFermentable);
+        Fermentable modifiedMalt = fermentableDAO.selectFermentableFromName(nameOfTheFermentable);
 
         if (modifiedMalt != null) {
             String stringEbc = maltEBCTextField.getText();

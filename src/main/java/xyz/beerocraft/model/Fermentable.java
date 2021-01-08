@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Malt implements Serializable {
+public class Fermentable implements Serializable {
 
     //private static final long serialVersionUID = 18273654748474L;
     private int id;
@@ -24,7 +24,7 @@ public class Malt implements Serializable {
 
     public static ObservableList<String> maltTypeChoices = FXCollections.observableArrayList();
 
-    public Malt(String name, float ebc, float lovibond, float potential, String type) {
+    public Fermentable(String name, float ebc, float lovibond, float potential, String type) {
         this.name = name;
         this.ebc = ebc;
         this.lovibond = lovibond;
@@ -38,7 +38,7 @@ public class Malt implements Serializable {
         }
     }
 
-    public Malt() {
+    public Fermentable() {
         this.name = "";
         setEbc(0);
         setLovibond(0);
@@ -105,8 +105,8 @@ public class Malt implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Malt)) return false;
-        Malt malt = (Malt) o;
+        if (!(o instanceof Fermentable)) return false;
+        Fermentable malt = (Fermentable) o;
         return ebc == malt.ebc &&
                 lovibond == malt.lovibond &&
                 potential == malt.potential &&

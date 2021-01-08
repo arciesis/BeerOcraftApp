@@ -60,7 +60,7 @@
                                             <GridPane.margin>
                                                 <Insets />
                                             </GridPane.margin></TextField>
-                                        <ListView fx:id="fermentablesListView" prefHeight="257.0" prefWidth="300.0" GridPane.rowIndex="1" />
+                                        <ListView fx:id="fermentablesListView" prefHeight="10.0" prefWidth="300.0" GridPane.rowIndex="1" />
                                         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -95,7 +95,7 @@
                                                 </Button>
                                                 <VBox prefHeight="200.0" prefWidth="100.0">
                                                     <children>
-                                                        <Button fx:id="maltAddMaltButton1" mnemonicParsing="false" onAction="#handleAddMaltButton" text="Add a fermentable" />
+                                                        <Button fx:id="maltAddMaltButton" mnemonicParsing="false" onAction="#handleAddMaltButton" />
                                                     </children>
                                                 </VBox>
                                                 <Button fx:id="maltDeleteButton" mnemonicParsing="false" onAction="#handleDeleteFermentablesButton" text="delete">
@@ -123,7 +123,18 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                            <children>
-                              <Label layoutX="66.0" layoutY="190.0" text="Label" />
+                              <GridPane fx:id="gridPaneHopsTab" layoutX="-1.0" prefHeight="396.0" prefWidth="418.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="206.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="212.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
                            </children></AnchorPane>
                     </items>
                   </SplitPane>

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static xyz.beerocraft.model.Malt.malts;
+import static xyz.beerocraft.model.Fermentable.malts;
 
 public class FermentableDAO {
 
@@ -18,7 +18,7 @@ public class FermentableDAO {
      *
      * @param myMalt the fermentable to add to the db
      */
-    public void addMaltToDB(Malt myMalt) {
+    public void addMaltToDB(Fermentable myMalt) {
 
         // Ceci est un try with ressources, la connection implementant
         // autoclosable, losrque l'on sortira du try la connection sera automatiquement fermee
@@ -59,7 +59,7 @@ public class FermentableDAO {
      * @param name the name of the fermentable to search for
      * @return the <code>Malt</code> corresponding to the fermentable
      */
-    public Malt selectFermentableFromName(String name) {
+    public Fermentable selectFermentableFromName(String name) {
         String querry = "SELECT fermentables.* FROM fermentables WHERE name LIKE ?";
         try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement(querry)) {
             pstmt.setString(1, name);
@@ -72,7 +72,7 @@ public class FermentableDAO {
             float potential = rs.getFloat(5);
             String type = rs.getString(6);
 
-            return new Malt(nameOfTheFermenatble, ebc, lovibond, potential, type);
+            return new Fermentable(nameOfTheFermenatble, ebc, lovibond, potential, type);
 
 
         } catch (SQLException e) {
@@ -106,7 +106,7 @@ public class FermentableDAO {
      * @param malt the malt to get the ebc
      * @return the ebc of the malt
      */
-    public float getEbcFromDB(Malt malt) {
+    public float getEbcFromDB(Fermentable malt) {
         String query = "SELECT ebc FROM fermentables WHERE name LIKE ?";
 
         try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement(query)) {
@@ -133,7 +133,7 @@ public class FermentableDAO {
      * @param malt the malt to get the lovibond
      * @return the lovibond of the malt
      */
-    public float getLovibondFromDB(Malt malt) {
+    public float getLovibondFromDB(Fermentable malt) {
         String query = "SELECT lovibond FROM fermentables WHERE name LIKE ?";
 
         try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement(query)) {
@@ -159,7 +159,7 @@ public class FermentableDAO {
      *
      * @param malt the malt to modify
      */
-    public void updateMaltEntry(Malt malt) {
+    public void updateMaltEntry(Fermentable malt) {
 
         String query = "UPDATE fermentables SET ebc = ?, lovibond = ?, potential = ?, type = ? WHERE name LIKE ?";
 
@@ -178,8 +178,8 @@ public class FermentableDAO {
         }
     }
 
-    public Malt getAllValuesOfAFermentable(String nameToSearch) {
-       Malt m = new Malt();
+    public Fermentable getAllValuesOfAFermentable(String nameToSearch) {
+       Fermentable m = new Fermentable();
         try {
             PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("SELECT * FROM fermentables WHERE name LIKE ?");
             pstmt.setString(1, nameToSearch);
