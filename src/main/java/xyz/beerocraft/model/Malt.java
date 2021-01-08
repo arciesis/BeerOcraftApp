@@ -46,7 +46,7 @@ public class Malt implements Serializable {
         setType(TYPE_POSSIBLE[0]);
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
@@ -68,6 +68,10 @@ public class Malt implements Serializable {
 
     public String getType() {
         return type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEbc(float ebc) {

@@ -82,7 +82,7 @@ public class FermentableDAO {
         return null;
     }
 
-    public void getNameFromDB(){
+    public void getNameFromDB() {
         try {
             String query = "SELECT name FROM fermentables";
             Statement st = DBConnectionHandler.myConn.createStatement();
@@ -154,7 +154,6 @@ public class FermentableDAO {
 
     }
 
-
     /**
      * Method that modified an existing malt of the DB
      *
@@ -177,7 +176,28 @@ public class FermentableDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public Malt getAllValuesOfAFermentable(String nameToSearch) {
+       Malt m = new Malt();
+        try {
+            PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("SELECT * FROM fermentables WHERE name LIKE ?");
+            pstmt.setString(1, nameToSearch);
+            ResultSet rs = pstmt.executeQuery();
 
+            while (rs.next()) {
+
+                m.setName(rs.getString(2));
+                m.setEbc(rs.getFloat(3));
+                m.setLovibond(rs.getFloat(4));
+                m.setPotential(rs.getFloat(5));
+                m.setType(rs.getString(6));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return m;
     }
 }

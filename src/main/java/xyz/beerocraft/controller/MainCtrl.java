@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import xyz.beerocraft.model.FermentableDAO;
@@ -83,6 +84,12 @@ public class MainCtrl implements Initializable {
      */
     @FXML
     private ListView<Hop> hopsListView;
+
+    /**
+     * The grid pane of the hop pane
+     */
+    @FXML
+    private GridPane gridPaneHopsTab;
 
     /**
      * The Yeasts tabof the main window
@@ -205,36 +212,19 @@ public class MainCtrl implements Initializable {
         //String maltName = listOfFermentablesTab.getSelectionModel().getSelectedItems().get(0);
         //PreparedStatement pstmt = DBHandler.myConn.prepareStatement("SELECT")
 
-        //TODO refactor vers DAO
-
         this.fermentablesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+
                 System.out.println("Selectioned malt : " + newValue);
 
-                try {
+                Malt malt = fermentableDAO.getAllValuesOfAFermentable(newValue);
 
-                    PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("SELECT * FROM fermentables WHERE name LIKE ?");
-                    pstmt.setString(1, newValue);
-
-                    ResultSet rs = pstmt.executeQuery();
-
-
-                    while (rs.next()) {
-
-                        maltNameTextField.setText(rs.getString(2));
-                        maltEBCTextField.setText(rs.getString(3));
-                        maltLovibondTextField.setText(rs.getString(4));
-                        maltPotentialTextField.setText(rs.getString(5));
-                        maltTypeComboBox.setValue(rs.getString(6));
-
-                    }
-
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
+                maltNameTextField.setText(malt.getName());
+                maltEBCTextField.setText(String.valueOf(malt.getEbc()));
+                maltLovibondTextField.setText(String.valueOf(malt.getLovibond()));
+                maltPotentialTextField.setText(String.valueOf(malt.getPotential()));
+                maltTypeComboBox.setValue(malt.getType());
             }
         });
     }
@@ -370,7 +360,7 @@ public class MainCtrl implements Initializable {
                 float floatLovibond = stringToFloatParser(stringLovibond);
                 float floatPotential = stringToFloatParser(stringPotential);
 
-                if (floatPotential >= 0 || floatPotential <= 100) {
+                if (floatPotential >= 0 && floatPotential <= 100) {
 
                     modifiedMalt.setPotential(floatPotential);
                     modifiedMalt.setType(stringType);
@@ -399,7 +389,7 @@ public class MainCtrl implements Initializable {
 
                     Alert potentialEntryIsNotValidAlert = new Alert(Alert.AlertType.WARNING);
                     potentialEntryIsNotValidAlert.setTitle("Invalid entry for potential");;
-                    potentialEntryIsNotValidAlert.setContentText("Your potential value is in % so it must be between 0% and 100%");
+                    potentialEntryIsNotValidAlert.setContentText("Your potential value is in % so it must be \nbetween 0% and 100%");
                     potentialEntryIsNotValidAlert.showAndWait();
 
                 }
