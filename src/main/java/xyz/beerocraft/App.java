@@ -29,7 +29,7 @@ public class App extends Application {
      * @throws Exception by javaFX
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws Exception{
         System.out.println("Start of the primary stage");
         //Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
         primaryStage.setTitle("BeerOCraft");
@@ -54,9 +54,9 @@ public class App extends Application {
         });
     }
 
-    static void setRoot(String fxml) throws IOException {
+   /* static void setRoot(String fxml) throws IOException {
         primaryScene.setRoot(loadFXML(fxml));
-    }
+    }*/
 
     private static Parent loadFXML(String fxml) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));

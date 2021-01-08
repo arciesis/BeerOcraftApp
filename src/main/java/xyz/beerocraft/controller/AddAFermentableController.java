@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import xyz.beerocraft.model.ConsumableDAO;
+import xyz.beerocraft.model.FermentableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
 import xyz.beerocraft.model.Malt;
 
@@ -26,7 +26,7 @@ public class AddAFermentableController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadFermentableToComboBoxOnAdd();
-        dao = new ConsumableDAO();
+        dao = new FermentableDAO();
     }
 
     /**
@@ -95,7 +95,7 @@ public class AddAFermentableController implements Initializable {
     /**
      * The Object wich handle interaction with the DB
      */
-    private ConsumableDAO dao;
+    private FermentableDAO dao;
 
 
 

@@ -7,8 +7,11 @@ package xyz.beerocraft.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class ConsumableDAO {
+import static xyz.beerocraft.model.Malt.malts;
+
+public class FermentableDAO {
 
     /**
      * Method that add a fermentable to the db
@@ -79,6 +82,24 @@ public class ConsumableDAO {
         return null;
     }
 
+    public void getNameFromDB(){
+        try {
+            String query = "SELECT name FROM fermentables";
+            Statement st = DBConnectionHandler.myConn.createStatement();
+            try (ResultSet rs = st.executeQuery(query)) {
+
+                while (rs.next()) {
+
+                    System.out.println(rs.getString(1));
+                    malts.add(rs.getString(1));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Method thatreturn the ebc value of a fermentables
      *
@@ -131,46 +152,6 @@ public class ConsumableDAO {
 
         return -1;
 
-    }
-
-    /**
-     * Method that add a hops to the db
-     *
-     * @param myHop the hops to add to the db
-     */
-    public void addHopsToDB(Hop myHop) {
-
-        try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("INSERT INTO hops(name, alphaAcide, type) VALUES (?,?,?)")) {
-            pstmt.setString(1, myHop.getName());
-            pstmt.setInt(2, myHop.getAlphaAcide());
-            pstmt.setString(3, myHop.getType());
-
-            pstmt.executeUpdate();
-
-            System.out.println("Hop have beed added");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Method that add a yeast to the db
-     *
-     * @param myYeast the yeasts to add to the db
-     */
-    public static void addYeastToDB(Yeast myYeast) {
-        try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("INSERT INTO yeasts(name, tempMin, tempMax, attenuation) VALUES (?,?,?,?)")) {
-            pstmt.setString(1, myYeast.getName());
-            pstmt.setInt(2, myYeast.getTempMin());
-            pstmt.setInt(3, myYeast.getTempMax());
-            pstmt.setInt(4, myYeast.getApparentAttenuation());
-
-            pstmt.executeUpdate();
-
-            System.out.println("Yeast have beed added");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 

@@ -19,7 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import xyz.beerocraft.model.ConsumableDAO;
+import xyz.beerocraft.model.FermentableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
 import xyz.beerocraft.model.Hop;
 import xyz.beerocraft.model.Malt;
@@ -29,7 +29,6 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import static xyz.beerocraft.model.Malt.*;
@@ -160,7 +159,7 @@ public class MainCtrl implements Initializable {
     /**
      * The Object wich handle interaction with the DB
      */
-    private ConsumableDAO dao;
+    private FermentableDAO fermentableDAO;
 
 
     /**
@@ -174,7 +173,7 @@ public class MainCtrl implements Initializable {
         System.out.println("Initialisation of the main controller");
 
         DBConnectionHandler dbConnectionHandler = new DBConnectionHandler();
-        dao = new ConsumableDAO();
+        fermentableDAO = new FermentableDAO();
 
         loadMaltsToFermentablesTabListView();
         System.out.println(fermentablesListView.toString());
@@ -270,7 +269,6 @@ public class MainCtrl implements Initializable {
             this.fermentablesListView.setItems(malts);
         } else {
             this.fermentablesListView.setItems(searchingMalts);
-
         }
     }
 
@@ -279,22 +277,8 @@ public class MainCtrl implements Initializable {
      * Method that load all the malts contained on the db into the list view of the fermentable tab of the main window
      */
     private void loadMaltsToFermentablesTabListView() {
-        //TODO refactor vers DAO
-        try {
-            String query = "SELECT name FROM fermentables";
-            Statement st = DBConnectionHandler.myConn.createStatement();
-            try (ResultSet rs = st.executeQuery(query)) {
 
-                while (rs.next()) {
-
-                    System.out.println(rs.getString(1));
-                    malts.add(rs.getString(1));
-
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        fermentableDAO.getNameFromDB();
 
     }
 
@@ -318,6 +302,7 @@ public class MainCtrl implements Initializable {
      */
     @FXML
     private void handleAddMaltButton(ActionEvent event) {
+
 
         Parent root;
         try {
@@ -352,7 +337,7 @@ public class MainCtrl implements Initializable {
             System.out.println("remove fermentable confirmed");
             String name = fermentablesListView.getSelectionModel().getSelectedItem();
 
-            dao.deleteFermentableOfDB(name);
+            fermentableDAO.deleteFermentableOfDB(name);
             malts.clear();
             loadMaltsToFermentablesTabListView();
             fermentablesListView.setItems(malts);
@@ -371,7 +356,7 @@ public class MainCtrl implements Initializable {
         System.out.println("Modify fermentable Button clicked");
 
         String nameOfTheFermentable = fermentablesListView.getSelectionModel().getSelectedItem();
-        Malt modifiedMalt = dao.selectFermentableFromName(nameOfTheFermentable);
+        Malt modifiedMalt = fermentableDAO.selectFermentableFromName(nameOfTheFermentable);
 
         if (modifiedMalt != null) {
             String stringEbc = maltEBCTextField.getText();
@@ -390,10 +375,10 @@ public class MainCtrl implements Initializable {
                     modifiedMalt.setPotential(floatPotential);
                     modifiedMalt.setType(stringType);
 
-                    if (floatEbc != dao.getEbcFromDB(modifiedMalt)) {
+                    if (floatEbc != fermentableDAO.getEbcFromDB(modifiedMalt)) {
                         ;
                         floatLovibond = (floatEbc + 1.2f) / 2.65f;
-                    } else if (floatLovibond != dao.getLovibondFromDB(modifiedMalt)) {
+                    } else if (floatLovibond != fermentableDAO.getLovibondFromDB(modifiedMalt)) {
                         floatEbc = (floatLovibond * 2.65f) - 1.2f;
                     }
 
@@ -401,7 +386,7 @@ public class MainCtrl implements Initializable {
                     modifiedMalt.setEbc(floatEbc);
                     modifiedMalt.setLovibond(floatLovibond);
 
-                    dao.updateMaltEntry(modifiedMalt);
+                    fermentableDAO.updateMaltEntry(modifiedMalt);
 
                     malts.clear();
                     loadMaltsToFermentablesTabListView();

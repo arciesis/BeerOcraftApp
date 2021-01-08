@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Malt implements Serializable {
 
     //private static final long serialVersionUID = 18273654748474L;
+    private int id;
     private String name;
     private float ebc;
     private float lovibond;
@@ -38,11 +39,15 @@ public class Malt implements Serializable {
     }
 
     public Malt() {
-        this.name="";
+        this.name = "";
         setEbc(0);
         setLovibond(0);
         setPotential(0);
         setType(TYPE_POSSIBLE[0]);
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public String getName() {
