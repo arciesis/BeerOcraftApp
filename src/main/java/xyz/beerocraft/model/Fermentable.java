@@ -2,20 +2,27 @@ package xyz.beerocraft.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import xyz.beerocraft.controller.MainCtrl;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 
 public class Fermentable implements Serializable {
 
     //private static final long serialVersionUID = 18273654748474L;
-    private int id;
+    //private int id;
     private String name;
     private float ebc;
     private float lovibond;
     private float potential;
     private String type;
+    //private static  ResourceBundle bundle;
+
+    /**
+     * Tab trhat contains all the type ossible of a fermentable
+     */
     public static final String[] TYPE_POSSIBLE = {"grain", "extract", "sugar", "adjunct", "other"};
 
     public static ObservableList<String> malts = FXCollections.observableArrayList();
@@ -24,7 +31,17 @@ public class Fermentable implements Serializable {
 
     public static ObservableList<String> maltTypeChoices = FXCollections.observableArrayList();
 
-    public Fermentable(String name, float ebc, float lovibond, float potential, String type) {
+
+
+/*    public Fermentable(String name, float ebc, float lovibond, float potential, String type, ResourceBundle resourceBundle) {
+        bundle = resourceBundle;
+
+        TYPE_POSSIBLE[0] = bundle.getString("grain");
+        TYPE_POSSIBLE[1] = bundle.getString("extract");
+        TYPE_POSSIBLE[2] = bundle.getString("sugar");
+        TYPE_POSSIBLE[3] = bundle.getString("adjunct");
+        TYPE_POSSIBLE[4] = bundle.getString("other");
+
         this.name = name;
         this.ebc = ebc;
         this.lovibond = lovibond;
@@ -36,19 +53,51 @@ public class Fermentable implements Serializable {
                 this.type = type;
             }
         }
+    }*/
+
+    public Fermentable(String name, float ebc, float lovibond, float potential, String type) {
+
+        this.name = name;
+        this.ebc = ebc;
+        this.lovibond = lovibond;
+        if (potential > 0 && potential <= 100)
+            this.potential = potential;
+
+        for (String item : Fermentable.TYPE_POSSIBLE) {
+            if (item.trim().equalsIgnoreCase(type)) {
+                this.type = type;
+            }
+        }
     }
 
-    public Fermentable() {
+/*    public Fermentable(ResourceBundle resourceBundle) {
+        this.bundle = resourceBundle;
+
+        TYPE_POSSIBLE[0] = bundle.getString("grain");
+        TYPE_POSSIBLE[1] = bundle.getString("extract");
+        TYPE_POSSIBLE[2] = bundle.getString("sugar");
+        TYPE_POSSIBLE[3] = bundle.getString("adjunct");
+        TYPE_POSSIBLE[4] = bundle.getString("other");
+
         this.name = "";
         setEbc(0);
         setLovibond(0);
         setPotential(0);
         setType(TYPE_POSSIBLE[0]);
+    }*/
+
+    public Fermentable() {
+
+        this.name = "";
+        setEbc(0);
+        setLovibond(0);
+        setPotential(0);
+        setType(Fermentable.TYPE_POSSIBLE[0]);
     }
 
-    public int getId() {
+/*    public int getId() {
         return this.id;
-    }
+    }*/
 
     public String getName() {
         return name;

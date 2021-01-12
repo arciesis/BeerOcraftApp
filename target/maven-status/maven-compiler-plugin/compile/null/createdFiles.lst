@@ -1,8 +1,9 @@
-xyz/beerocraft/language/Translation.class
+xyz/beerocraft/model/YeastDAO.class
 xyz/beerocraft/model/Yeast.class
 xyz/beerocraft/model/DBConnectionHandler.class
 xyz/beerocraft/controller/AddAFermentableController.class
 xyz/beerocraft/model/Hop.class
+xyz/beerocraft/model/HopDAO.class
 xyz/beerocraft/controller/MainCtrl.class
 xyz/beerocraft/view/BeerOCraftPreloader.class
 xyz/beerocraft/controller/InvalidStateObjectException.class
@@ -10,3 +11,4 @@ module-info.class
 xyz/beerocraft/App.class
 xyz/beerocraft/controller/MainCtrl$1.class
 xyz/beerocraft/model/Fermentable.class
+xyz/beerocraft/model/FermentableDAO.class

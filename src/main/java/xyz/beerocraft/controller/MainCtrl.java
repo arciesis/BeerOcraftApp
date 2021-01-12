@@ -1,3 +1,4 @@
+
 /**
  * @author Arciesis https://guthub.com/arciesis/BeerOcraftApp/
  */
@@ -20,7 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import xyz.beerocraft.language.Translation;
 import xyz.beerocraft.model.FermentableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
 import xyz.beerocraft.model.Hop;
@@ -31,7 +31,6 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static xyz.beerocraft.model.Fermentable.*;
@@ -70,7 +69,7 @@ public class MainCtrl implements Initializable {
     private TextField textfieldSearchMalts;
 
     /**
-     * The Hops Tabof the main window
+     * The Hops Tab of the main window
      */
     @FXML
     private Tab hopsTab;
@@ -112,25 +111,55 @@ public class MainCtrl implements Initializable {
     private AnchorPane hopsTabAnchorPane;
 
     /**
-     * th yeasts tab paneof the main window
+     * the yeasts tab paneof the main window
      */
     @FXML
     private AnchorPane yeastsTabPane;
 
     /**
-     * The Name text fieldof the main window
+     * The label of the name of the fermetable tab
+     */
+    @FXML
+    private Label maltNameLabel;
+
+    /**
+     * The ebc label of the fermentable tab
+     */
+    @FXML
+    private Label maltEBCLabel;
+
+    /**
+     * The Lolovibond textfield of the fermentable tab
+     */
+    @FXML
+    private Label maltLovibondLabel;
+
+    /**
+     * The potential label of the fermentable tab
+     */
+    @FXML
+    private Label maltPotentialLabel;
+
+    /**
+     * The type label of the fermentable tab
+     */
+    @FXML
+    private Label maltTypeLabel;
+
+    /**
+     * The Name text field of the main window
      */
     @FXML
     private TextField maltNameTextField;
 
     /**
-     * The EBC text fieldof the main window
+     * The EBC text field of the main window
      */
     @FXML
     private TextField maltEBCTextField;
 
     /**
-     * The Lovibond text fieldof the main window
+     * The Lovibond text field of the main window
      */
     @FXML
     private TextField maltLovibondTextField;
@@ -168,21 +197,27 @@ public class MainCtrl implements Initializable {
     /**
      * The Object wich handle interaction with the DB
      */
-    private FermentableDAO fermentableDAO;
+    private FermentableDAO fermentablseDAO;
+
+    @FXML
+    private ResourceBundle bundle;
+
 
 
     /**
-     * Methd that Initialize the main controller
+     * Method that Initialize the main controller
      *
      * @param url            not used
-     * @param resourceBundle not used
+     * @param resourceBundle The resources to dynamically set the language
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Initialisation of the main controller");
 
+        this.bundle = resourceBundle;
+
         DBConnectionHandler dbConnectionHandler = new DBConnectionHandler();
-        fermentableDAO = new FermentableDAO();
+        fermentablseDAO = new FermentableDAO();
 
         loadMaltsToFermentablesTabListView();
         System.out.println(fermentablesListView.toString());
@@ -192,11 +227,7 @@ public class MainCtrl implements Initializable {
         maltsMouseClicked();
         loadFermentableToComboBox();
 
-        maltNameTextField.setDisable(true);
-
-
-        maltAddMaltButton.setText(Translation.getString("addfermentable"));
-
+        this.maltNameTextField.setDisable(true);
 
     }
 
@@ -205,10 +236,10 @@ public class MainCtrl implements Initializable {
      * Constructor of the main controller
      */
     public MainCtrl() {
+
         System.out.println("Initialisation of the window ");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/data/arciesis/dev/java/BeerOCraft/src/resources/MainView.fxml"));
         loader.setController(this);
-
 
     }
 
@@ -226,7 +257,7 @@ public class MainCtrl implements Initializable {
 
                 System.out.println("Selectioned malt : " + newValue);
 
-                Fermentable malt = fermentableDAO.getAllValuesOfAFermentable(newValue);
+                Fermentable malt = fermentablseDAO.getAllValuesOfAFermentable(newValue);
 
                 maltNameTextField.setText(malt.getName());
                 maltEBCTextField.setText(String.valueOf(malt.getEbc()));
@@ -276,7 +307,7 @@ public class MainCtrl implements Initializable {
      */
     private void loadMaltsToFermentablesTabListView() {
 
-        fermentableDAO.getNameFromDB();
+        fermentablseDAO.getNameFromDB();
 
     }
 
@@ -304,7 +335,7 @@ public class MainCtrl implements Initializable {
 
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/AddAFermentable.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/AddAFermentable.fxml"), bundle);
             Stage addAFermentablePopUp = new Stage();
             addAFermentablePopUp.setTitle("Add a fermentable");
             addAFermentablePopUp.setScene(new Scene(root, 800, 450));
@@ -325,9 +356,9 @@ public class MainCtrl implements Initializable {
      */
     @FXML
     private void handleDeleteFermentablesButton(ActionEvent event) {
-        Alert confirmYouWantToDeleteFermentableAlert = new Alert(Alert.AlertType.INFORMATION, "Delete ?", ButtonType.YES, ButtonType.NO);
-        confirmYouWantToDeleteFermentableAlert.setTitle("Delete this fermentable");
-        confirmYouWantToDeleteFermentableAlert.setContentText("Are you sur you want to delete this fermentable ?");
+        Alert confirmYouWantToDeleteFermentableAlert = new Alert(Alert.AlertType.INFORMATION, this.bundle.getString("ask.delete"), ButtonType.YES, ButtonType.NO);
+        confirmYouWantToDeleteFermentableAlert.setTitle(this.bundle.getString("DeleteFermentable"));
+        confirmYouWantToDeleteFermentableAlert.setContentText(this.bundle.getString("alert.core.delete"));
         confirmYouWantToDeleteFermentableAlert.showAndWait();
 
         if (confirmYouWantToDeleteFermentableAlert.getResult() == ButtonType.YES) {
@@ -335,7 +366,7 @@ public class MainCtrl implements Initializable {
             System.out.println("remove fermentable confirmed");
             String name = fermentablesListView.getSelectionModel().getSelectedItem();
 
-            fermentableDAO.deleteFermentableOfDB(name);
+            fermentablseDAO.deleteFermentableOfDB(name);
             malts.clear();
             loadMaltsToFermentablesTabListView();
             fermentablesListView.setItems(malts);
@@ -354,7 +385,7 @@ public class MainCtrl implements Initializable {
         System.out.println("Modify fermentable Button clicked");
 
         String nameOfTheFermentable = fermentablesListView.getSelectionModel().getSelectedItem();
-        Fermentable modifiedMalt = fermentableDAO.selectFermentableFromName(nameOfTheFermentable);
+        Fermentable modifiedMalt = fermentablseDAO.selectFermentableFromName(nameOfTheFermentable);
 
         if (modifiedMalt != null) {
             String stringEbc = maltEBCTextField.getText();
@@ -373,10 +404,10 @@ public class MainCtrl implements Initializable {
                     modifiedMalt.setPotential(floatPotential);
                     modifiedMalt.setType(stringType);
 
-                    if (floatEbc != fermentableDAO.getEbcFromDB(modifiedMalt)) {
+                    if (floatEbc != fermentablseDAO.getEbcFromDB(modifiedMalt)) {
                         ;
                         floatLovibond = (floatEbc + 1.2f) / 2.65f;
-                    } else if (floatLovibond != fermentableDAO.getLovibondFromDB(modifiedMalt)) {
+                    } else if (floatLovibond != fermentablseDAO.getLovibondFromDB(modifiedMalt)) {
                         floatEbc = (floatLovibond * 2.65f) - 1.2f;
                     }
 
@@ -384,7 +415,7 @@ public class MainCtrl implements Initializable {
                     modifiedMalt.setEbc(floatEbc);
                     modifiedMalt.setLovibond(floatLovibond);
 
-                    fermentableDAO.updateMaltEntry(modifiedMalt);
+                    fermentablseDAO.updateMaltEntry(modifiedMalt);
 
                     malts.clear();
                     loadMaltsToFermentablesTabListView();
@@ -396,8 +427,8 @@ public class MainCtrl implements Initializable {
                     System.out.println("Potential entry not valid");
 
                     Alert potentialEntryIsNotValidAlert = new Alert(Alert.AlertType.WARNING);
-                    potentialEntryIsNotValidAlert.setTitle("Invalid entry for potential");;
-                    potentialEntryIsNotValidAlert.setContentText("Your potential value is in % so it must be \nbetween 0% and 100%");
+                    potentialEntryIsNotValidAlert.setTitle(this.bundle.getString("alert.invalid.potential.title"));;
+                    potentialEntryIsNotValidAlert.setContentText(this.bundle.getString("alert.invalid.potential.core"));
                     potentialEntryIsNotValidAlert.showAndWait();
 
                 }
@@ -406,8 +437,8 @@ public class MainCtrl implements Initializable {
                 System.out.println("An Input dosen't match requirement to modify this fermentable");
 
                 Alert inputDosentMatchRequirementAlert = new Alert(Alert.AlertType.WARNING);
-                inputDosentMatchRequirementAlert.setTitle("Input dosen't match requirement");
-                inputDosentMatchRequirementAlert.setContentText("An Input dosen't match requirement.\ne.g. one of the input is not a valid number");
+                inputDosentMatchRequirementAlert.setTitle(this.bundle.getString("alert.input.title"));
+                inputDosentMatchRequirementAlert.setContentText(this.bundle.getString("alert.input.core"));
                 inputDosentMatchRequirementAlert.showAndWait();
             }
 

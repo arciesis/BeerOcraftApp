@@ -28,22 +28,22 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Name :">
+                <Label text="%Name">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>
                 </Label>
-                <Label text="EBC :" GridPane.rowIndex="1">
+                <Label text="%Ebc" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>
                 </Label>
-                <Label text="Potential :" GridPane.rowIndex="3">
+                <Label text="%Potential" GridPane.rowIndex="3">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>
                 </Label>
-                <Label prefHeight="22.0" prefWidth="41.0" text="Type :" GridPane.rowIndex="4">
+                <Label prefHeight="22.0" prefWidth="41.0" text="%Type" GridPane.rowIndex="4">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>
@@ -56,17 +56,17 @@
                         <Insets left="75.0" />
                     </GridPane.margin>
                 </ComboBox>
-                <Button fx:id="addAFermentableAddButton" mnemonicParsing="false" onAction="#handleAddButton" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <Button fx:id="addAFermentableAddButton" mnemonicParsing="false" onAction="#handleAddButton" text="%Add" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>
                 </Button>
-                <Button fx:id="addaFermentableResetButton" mnemonicParsing="false" onAction="#handleResetButton" text="Reset" GridPane.rowIndex="5">
+                <Button fx:id="addaFermentableResetButton" mnemonicParsing="false" onAction="#handleResetButton" text="%Reset" GridPane.rowIndex="5">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>
                 </Button>
-                <ToggleButton fx:id="addAFermentableEBCToggleButton" mnemonicParsing="false" text="EBC" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <ToggleButton fx:id="addAFermentableEBCToggleButton" mnemonicParsing="false" text="%Ebc" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <toggleGroup>
                         <ToggleGroup fx:id="maltColorToggleGroup" />
                     </toggleGroup>
@@ -74,12 +74,12 @@
                         <Insets />
                     </GridPane.margin>
                 </ToggleButton>
-                <ToggleButton fx:id="addAfermentableLovibondToggleButton" mnemonicParsing="false" text="Lovibond" toggleGroup="$maltColorToggleGroup" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <ToggleButton fx:id="addAfermentableLovibondToggleButton" mnemonicParsing="false" text="%Lovibond" toggleGroup="$maltColorToggleGroup" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <GridPane.margin>
                         <Insets left="222.0" />
                     </GridPane.margin>
                 </ToggleButton>
-                <Label text="Lovibond :" GridPane.rowIndex="2">
+                <Label text="%Lovibond" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets left="125.0" />
                     </GridPane.margin>

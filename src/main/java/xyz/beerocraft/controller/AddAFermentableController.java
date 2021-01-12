@@ -27,8 +27,15 @@ public class AddAFermentableController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadFermentableToComboBoxOnAdd();
         dao = new FermentableDAO();
+        this.resources = resourceBundle;
     }
 
+
+    /**
+     * The bundle to setup language
+     */
+    @FXML
+    private ResourceBundle resources;
     /**
      * the name text field of the "Add a fermentable" window
      */

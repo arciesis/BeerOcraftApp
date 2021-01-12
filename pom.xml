@@ -50,6 +50,7 @@
                 <directory>src/main/java/xyz/beerocraft/</directory>
                 <includes>
                     <include>**/*.properties</include>
+                    <include>**/*.fxml</include>
                 </includes>
             </resource>
         </resources>

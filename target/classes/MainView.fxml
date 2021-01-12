@@ -17,32 +17,31 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.beerocraft.controller.MainCtrl">
     <children>
         <MenuBar prefHeight="453.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="%File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="%Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="%Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
         <TabPane fx:id="firstTabPane" prefHeight="453.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
-                <Tab fx:id="fermentablesTab" text="Fermentables">
+                <Tab fx:id="fermentablesTab" text="%Fermentables">
                     <content>
                         <SplitPane>
                             <items>
@@ -59,8 +58,9 @@
                                         <TextField fx:id="textfieldSearchMalts" alignment="TOP_LEFT" layoutX="1.0" layoutY="1.0" onKeyReleased="#maltsKeyHasBeenReleased" prefHeight="7.0" prefWidth="300.0">
                                             <GridPane.margin>
                                                 <Insets />
-                                            </GridPane.margin></TextField>
-                                        <ListView fx:id="fermentablesListView" prefHeight="10.0" prefWidth="300.0" GridPane.rowIndex="1" />
+                                            </GridPane.margin>
+                                        </TextField>
+                                        <ListView fx:id="fermentablesListView" prefHeight="257.0" prefWidth="300.0" GridPane.rowIndex="1" />
                                         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -74,31 +74,31 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
-                                                <Label fx:id="maltNameLabel" prefHeight="18.0" prefWidth="151.0" text="Name" />
+                                                <Label fx:id="maltNameLabel" prefHeight="18.0" prefWidth="151.0" text="%Name" GridPane.rowIndex="0" />
+                                                <Label fx:id="maltEBCLabel" prefHeight="18.0" prefWidth="151.0" text="%Ebc" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.rowIndex="1" />
+                                                <Label fx:id="maltLovibondLabel" prefHeight="18.0" prefWidth="150.0" text="%Lovibond" GridPane.rowIndex="2" />
+                                                <Label fx:id="maltPotentialLabel" prefHeight="18.0" prefWidth="152.0" text="%Potential" GridPane.rowIndex="3" />
+                                                <Label fx:id="maltTypeLabel" prefHeight="18.0" prefWidth="153.0" text="%Type" GridPane.rowIndex="4" />
                                                 <TextField fx:id="maltNameTextField" GridPane.columnIndex="1" />
-                                                <Label prefHeight="18.0" prefWidth="151.0" text="EBC" GridPane.rowIndex="1" />
-                                                <Label prefHeight="18.0" prefWidth="150.0" text="Lovibond" GridPane.rowIndex="2" />
-                                                <Label prefHeight="18.0" prefWidth="152.0" text="Potential" GridPane.rowIndex="3" />
-                                                <Label prefHeight="18.0" prefWidth="153.0" text="Type" GridPane.rowIndex="4" />
                                                 <TextField fx:id="maltEBCTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                 <TextField fx:id="maltLovibondTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                 <TextField fx:id="maltPotentialTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                 <ComboBox fx:id="maltTypeComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                             </children>
                                         </GridPane>
-                                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                        <HBox prefHeight="16.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowSpan="2">
                                             <children>
-                                                <Button fx:id="maltModifyButton" mnemonicParsing="false" onAction="#handleModifyMaltButton" text="Modify">
+                                                <Button fx:id="maltModifyButton" mnemonicParsing="false" onAction="#handleModifyMaltButton" text="%Modify">
                                                     <HBox.margin>
-                                                        <Insets left="25.0" />
+                                                        <Insets left="5.0" />
                                                     </HBox.margin>
                                                 </Button>
-                                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                                    <children>
-                                                        <Button fx:id="maltAddMaltButton" mnemonicParsing="false" onAction="#handleAddMaltButton" />
-                                                    </children>
-                                                </VBox>
-                                                <Button fx:id="maltDeleteButton" mnemonicParsing="false" onAction="#handleDeleteFermentablesButton" text="delete">
+                                                  <Button fx:id="maltAddMaltButton" mnemonicParsing="false" onAction="#handleAddMaltButton" text="%AddFermentable" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="80.0" right="-50.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                                <Button fx:id="maltDeleteButton" mnemonicParsing="false" onAction="#handleDeleteFermentablesButton" text="%Delete">
                                                     <HBox.margin>
                                                         <Insets left="110.0" />
                                                     </HBox.margin>
@@ -111,35 +111,37 @@
                         </SplitPane>
                     </content>
                 </Tab>
-                <Tab fx:id="hopsTab" text="Hops">
-               <content>
-                  <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <TextField fx:id="hopSerchingTextField" layoutX="2.0" layoutY="14.0" />
-                              <ListView fx:id="hopsListView" layoutX="-12.0" layoutY="42.0" prefHeight="356.0" prefWidth="200.0" />
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <GridPane fx:id="gridPaneHopsTab" layoutX="-1.0" prefHeight="396.0" prefWidth="418.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="206.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="212.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                              </GridPane>
-                           </children></AnchorPane>
-                    </items>
-                  </SplitPane>
-               </content></Tab>
-                <Tab fx:id="yeastsTab" text="Yeasts" />
+                <Tab fx:id="hopsTab" text="%Hops">
+                    <content>
+                        <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                    <children>
+                                        <TextField fx:id="hopSerchingTextField" layoutX="2.0" layoutY="14.0" />
+                                        <ListView fx:id="hopsListView" layoutX="-12.0" layoutY="42.0" prefHeight="356.0" prefWidth="200.0" />
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                    <children>
+                                        <GridPane fx:id="gridPaneHopsTab" layoutX="-1.0" prefHeight="396.0" prefWidth="418.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="206.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="212.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="139.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="yeastsTab" text="%Yeasts" />
             </tabs>
             <padding>
                 <Insets top="25.0" />

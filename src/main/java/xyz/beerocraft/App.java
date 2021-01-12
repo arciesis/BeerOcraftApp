@@ -31,11 +31,11 @@ public class App extends Application {
      * @throws Exception by javaFX
      */
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         System.out.println("Start of the primary stage");
         //Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
         primaryStage.setTitle("BeerOCraft");
-        primaryScene = new Scene(loadFXML("/MainView"),1280,720);
+        primaryScene = new Scene(loadFXML("/MainView"), 1080, 720);
         primaryStage.setScene(primaryScene);
         primaryStage.centerOnScreen();
         primaryStage.show();
@@ -60,8 +60,13 @@ public class App extends Application {
         primaryScene.setRoot(loadFXML(fxml));
     }*/
 
-    private static Parent loadFXML(String fxml) throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+
+    private static Parent loadFXML(String fxml) throws IOException {
+
+        Locale locale_fr_FR = new Locale("fr", "FR");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("language.bundle", locale_fr_FR);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"), resourceBundle);
         return fxmlLoader.load();
     }
 
