@@ -11,7 +11,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -220,7 +219,7 @@ public class MainCtrl implements Initializable {
         DBConnectionHandler dbConnectionHandler = new DBConnectionHandler();
         fermentablseDAO = new FermentableDAO();
 
-        loadMaltsToFermentablesTabListView();
+        loadMaltsToFermentablesListView();
         this.fermentablesListView.setItems(malts);
         this.textfieldSearchMalts.setPromptText("Weyermann");
 
@@ -305,7 +304,7 @@ public class MainCtrl implements Initializable {
     /**
      * Method that load all the malts contained on the db into the list view of the fermentable tab of the main window
      */
-    private void loadMaltsToFermentablesTabListView() {
+    private void loadMaltsToFermentablesListView() {
 
         fermentablseDAO.getNameFromDB();
 
@@ -339,12 +338,15 @@ public class MainCtrl implements Initializable {
             addAFermentablePopUp.setTitle(this.bundle.getString("AddFermentable"));
             addAFermentablePopUp.setScene(new Scene(root, 800, 450));
             addAFermentablePopUp.centerOnScreen();
-            addAFermentablePopUp.show();
+            addAFermentablePopUp.showAndWait();
             // Hide this current window (if this is what you want)
             //((Node)(event.getSource())).getScene().getWindow().hide();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        malts.clear();
+        loadMaltsToFermentablesListView();
+        this.fermentablesListView.setItems(malts);
     }
 
 
@@ -367,7 +369,7 @@ public class MainCtrl implements Initializable {
 
             fermentablseDAO.deleteFermentableOfDB(name);
             malts.clear();
-            loadMaltsToFermentablesTabListView();
+            loadMaltsToFermentablesListView();
             fermentablesListView.setItems(malts);
 
         }
@@ -417,7 +419,7 @@ public class MainCtrl implements Initializable {
                     fermentablseDAO.updateMaltEntry(modifiedMalt);
 
                     malts.clear();
-                    loadMaltsToFermentablesTabListView();
+                    loadMaltsToFermentablesListView();
                     fermentablesListView.setItems(malts);
                     fermentablesListView.getSelectionModel().select(nameOfTheFermentable);
 
