@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>xyz.beerocraft</groupId>
     <artifactId>BeerOcraft</artifactId>
@@ -45,14 +45,22 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
+    </build>
+</project>
+
+        <!--<resources>
             <resource>
                 <directory>src/main/java/xyz/beerocraft/</directory>
                 <includes>
                     <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <includes>
                     <include>**/*.fxml</include>
                 </includes>
             </resource>
-        </resources>
-    </build>
-</project>
+        </resources-->
+
+

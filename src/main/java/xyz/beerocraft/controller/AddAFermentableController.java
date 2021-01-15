@@ -170,8 +170,9 @@ public class AddAFermentableController implements Initializable {
                                     dao.addMaltToDB(m);
 
                                     malts.add(m.getName());
-                                    malts.sorted();
+                                    //malts.sorted();
 
+                                    malts.clear();
 
                                     Node source = (Node) event.getSource();
                                     Stage thisStage = (Stage) source.getScene().getWindow();

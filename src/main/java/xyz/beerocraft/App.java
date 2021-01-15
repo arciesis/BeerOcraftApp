@@ -1,6 +1,6 @@
-/**
+/*
  * @author Arciesis https://github.com/arciesis/BeerOCraft/
- * <p>
+ *
  * The main class of the program
  */
 
@@ -14,15 +14,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import xyz.beerocraft.model.DBConnectionHandler;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
 public class App extends Application {
-
-    private static Scene primaryScene;
 
     /**
      * The method wich start the main window
@@ -35,7 +35,9 @@ public class App extends Application {
         System.out.println("Start of the primary stage");
         //Parent root = FXMLLoader.load(getClass().getResource("resources/MainView.fxml"));
         primaryStage.setTitle("BeerOCraft");
-        primaryScene = new Scene(loadFXML("/MainView"), 1080, 720);
+        System.out.println(App.class.getResource("fxml/MainView.fxml"));
+
+        Scene primaryScene = new Scene(loadFXML("/home/arciesis/dev/java/BeerOcraft/src/main/resources/fxml/MainView.fxml"), 1080, 720);
         primaryStage.setScene(primaryScene);
         primaryStage.centerOnScreen();
         primaryStage.show();
@@ -50,23 +52,27 @@ public class App extends Application {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             primaryStage.close();
 
         });
     }
 
-   /* static void setRoot(String fxml) throws IOException {
-        primaryScene.setRoot(loadFXML(fxml));
-    }*/
 
-
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String absoluteFXML) throws IOException {
 
         Locale locale_fr_FR = new Locale("fr", "FR");
         ResourceBundle resourceBundle = ResourceBundle.getBundle("language.bundle", locale_fr_FR);
+        //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(absoluteFXML, resourceBundle);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"), resourceBundle);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+
+
+        //String abslotuePathToFXML = "/home/arciesis/dev/java/BeerOcraft/src/main/resources/fxml/MainView.fxml";
+        URL fxmlURL = new File(absoluteFXML).toURI().toURL();
+        fxmlLoader.setLocation(fxmlURL);
+        fxmlLoader.setResources(resourceBundle);
+
+
         return fxmlLoader.load();
     }
 

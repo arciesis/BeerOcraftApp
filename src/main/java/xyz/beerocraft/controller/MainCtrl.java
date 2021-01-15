@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import xyz.beerocraft.App;
 import xyz.beerocraft.model.FermentableDAO;
 import xyz.beerocraft.model.DBConnectionHandler;
 import xyz.beerocraft.model.Hop;
@@ -180,7 +181,7 @@ public class MainCtrl implements Initializable {
      * The add button fermentable of the main window
      */
     @FXML
-    private Button maltAddMaltButton;
+    private Button maltAddButton;
 
     /**
      * The delete button of the main window
@@ -220,12 +221,11 @@ public class MainCtrl implements Initializable {
         fermentablseDAO = new FermentableDAO();
 
         loadMaltsToFermentablesTabListView();
-        System.out.println(fermentablesListView.toString());
         this.fermentablesListView.setItems(malts);
         this.textfieldSearchMalts.setPromptText("Weyermann");
 
         maltsMouseClicked();
-        loadFermentableToComboBox();
+        loadFermentablesTypeToComboBox();
 
         this.maltNameTextField.setDisable(true);
 
@@ -238,8 +238,8 @@ public class MainCtrl implements Initializable {
     public MainCtrl() {
 
         System.out.println("Initialisation of the window ");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/data/arciesis/dev/java/BeerOCraft/src/resources/MainView.fxml"));
-        loader.setController(this);
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/data/arciesis/dev/java/BeerOCraft/src/resources/MainView.fxml"));
+        loader.setController(this);*/
 
     }
 
@@ -314,7 +314,7 @@ public class MainCtrl implements Initializable {
     /**
      * Method that load the type of malt to the combo box of the tab fermentable of the main window
      */
-    private void loadFermentableToComboBox() {
+    private void loadFermentablesTypeToComboBox() {
         if (maltTypeComboBox.getItems().isEmpty()) {
 
             maltTypeChoices.addAll(Fermentable.TYPE_POSSIBLE);
@@ -332,12 +332,11 @@ public class MainCtrl implements Initializable {
     @FXML
     private void handleAddMaltButton(ActionEvent event) {
 
-
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("/AddAFermentable.fxml"), bundle);
+            root = App.loadFXML("/home/arciesis/dev/java/BeerOcraft/src/main/resources/fxml/AddAFermentable.fxml");
             Stage addAFermentablePopUp = new Stage();
-            addAFermentablePopUp.setTitle("Add a fermentable");
+            addAFermentablePopUp.setTitle(this.bundle.getString("AddFermentable"));
             addAFermentablePopUp.setScene(new Scene(root, 800, 450));
             addAFermentablePopUp.centerOnScreen();
             addAFermentablePopUp.show();
@@ -445,7 +444,6 @@ public class MainCtrl implements Initializable {
         } else {
             System.out.println("Hmm The name has been modify what can I do ? c'est pour ca qu'il faut que jenbtraite aavec l'id");
         }
-
     }
 
 
