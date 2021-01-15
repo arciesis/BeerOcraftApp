@@ -203,7 +203,6 @@ public class MainCtrl implements Initializable {
     private ResourceBundle bundle;
 
 
-
     /**
      * Method that Initialize the main controller
      *
@@ -316,7 +315,13 @@ public class MainCtrl implements Initializable {
     private void loadFermentablesTypeToComboBox() {
         if (maltTypeComboBox.getItems().isEmpty()) {
 
-            maltTypeChoices.addAll(Fermentable.TYPE_POSSIBLE);
+            String[] bundleType = new String[Fermentable.TYPE_POSSIBLE.length];
+
+            for (int i = 0; i < bundleType.length; i++) {
+                bundleType[i] = this.bundle.getString(Fermentable.TYPE_POSSIBLE[i]);
+            }
+
+            maltTypeChoices.addAll(bundleType);
             maltTypeComboBox.getItems().addAll(maltTypeChoices);
 
         }
@@ -391,7 +396,7 @@ public class MainCtrl implements Initializable {
         if (modifiedMalt != null) {
             String stringEbc = maltEBCTextField.getText();
             String stringLovibond = maltLovibondTextField.getText();
-            String stringPotential= maltPotentialTextField.getText();
+            String stringPotential = maltPotentialTextField.getText();
             String stringType = maltTypeComboBox.getSelectionModel().getSelectedItem();
 
             if (isFloatInput((stringEbc)) && isFloatInput(stringLovibond) && isFloatInput(stringPotential)) {
@@ -428,7 +433,8 @@ public class MainCtrl implements Initializable {
                     System.out.println("Potential entry not valid");
 
                     Alert potentialEntryIsNotValidAlert = new Alert(Alert.AlertType.WARNING);
-                    potentialEntryIsNotValidAlert.setTitle(this.bundle.getString("alert.invalid.potential.title"));;
+                    potentialEntryIsNotValidAlert.setTitle(this.bundle.getString("alert.invalid.potential.title"));
+                    ;
                     potentialEntryIsNotValidAlert.setContentText(this.bundle.getString("alert.invalid.potential.core"));
                     potentialEntryIsNotValidAlert.showAndWait();
 

@@ -22,7 +22,12 @@ import static xyz.beerocraft.model.Fermentable.malts;
 
 public class AddAFermentableController implements Initializable {
 
-
+    /**
+     * Method that initialize the window
+     *
+     * @param url            the url of the fxml (I think)
+     * @param resourceBundle The resourceBundle used for translation
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadFermentableToComboBoxOnAdd();
@@ -105,9 +110,9 @@ public class AddAFermentableController implements Initializable {
     private FermentableDAO dao;
 
 
-
     /**
      * the method that handle the button "add a fermentable" of the "Add a fermentable" window
+     *
      * @param event the event taht is listenned
      */
     @FXML
@@ -149,7 +154,7 @@ public class AddAFermentableController implements Initializable {
                 if (!isAWarningAppeared) {
                     if (isEBCSelected || isLovibondSelected) {
 
-                        if ((!addAfermentableEBCTextField.getText().isEmpty() && isEBCSelected) || (!addafermentableLovibondTextField.getText().isEmpty() && isLovibondSelected ))  {
+                        if ((!addAfermentableEBCTextField.getText().isEmpty() && isEBCSelected) || (!addafermentableLovibondTextField.getText().isEmpty() && isLovibondSelected)) {
 
                             if (!addAFermentablePotentialTextField.getText().isEmpty()) {
 
@@ -220,7 +225,6 @@ public class AddAFermentableController implements Initializable {
             }
 
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -228,6 +232,7 @@ public class AddAFermentableController implements Initializable {
 
     /**
      * the method that handle the reset button of the "add a fermentable" window
+     *
      * @param event
      */
     @FXML
@@ -248,7 +253,6 @@ public class AddAFermentableController implements Initializable {
 
         addAFermentableTypeComboBox.getItems().addAll(maltTypeChoices);
     }
-
 
 
 }

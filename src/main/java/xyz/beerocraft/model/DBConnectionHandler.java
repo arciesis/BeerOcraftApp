@@ -50,7 +50,7 @@ public class DBConnectionHandler {
 
             Properties props = new Properties();
 
-            try (FileInputStream fis = new FileInputStream("/home/arciesis/dev/java/BeerOcraft/src/main/java/xyz/beerocraft/DBconf.properties")) {
+            try (FileInputStream fis = new FileInputStream("/home/arciesis/dev/java/BeerOcraft/src/main/resources/DBconf.properties")) {
                 props.load(fis);
             } catch (IOException e) {
                 e.printStackTrace();
