@@ -7,20 +7,20 @@ public class YeastDAO {
 
 
     /**
-     * Method that add a hops to the db
+     * Method that add a yeast to the db
      *
-     * @param myHop the hops to add to the db
+     * @param myYeast the yeasts to add to the db
      */
-    public void addHopsToDB(Hop myHop) {
-
-        try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("INSERT INTO hops(name, alphaAcide, type) VALUES (?,?,?)")) {
-            pstmt.setString(1, myHop.getName());
-            pstmt.setInt(2, myHop.getAlphaAcide());
-            pstmt.setString(3, myHop.getType());
+    public static void addYeastToDB(Yeast myYeast) {
+        try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("INSERT INTO yeasts(name, tempMin, tempMax, attenuation) VALUES (?,?,?,?)")) {
+            pstmt.setString(1, myYeast.getName());
+            pstmt.setInt(2, myYeast.getTempMin());
+            pstmt.setInt(3, myYeast.getTempMax());
+            pstmt.setInt(4, myYeast.getApparentAttenuation());
 
             pstmt.executeUpdate();
 
-            System.out.println("Hop have beed added");
+            System.out.println("Yeast have beed added");
         } catch (SQLException e) {
             e.printStackTrace();
         }

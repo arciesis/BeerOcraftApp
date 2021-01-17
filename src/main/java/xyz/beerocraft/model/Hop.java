@@ -4,6 +4,9 @@
 
 package xyz.beerocraft.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -37,6 +40,10 @@ public class Hop implements Serializable {
      * The possible type of a hop
      */
     private static final String[] TYPE_POSSIBLE = {"cones" , "pellets", "pastilles"};
+
+    public static ObservableList<String> hops = FXCollections.observableArrayList();
+
+    public static ObservableList<String> searchingHops = FXCollections.observableArrayList();
 
 
     /**

@@ -8,7 +8,6 @@ package xyz.beerocraft.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,16 +20,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import xyz.beerocraft.App;
-import xyz.beerocraft.model.FermentableDAO;
-import xyz.beerocraft.model.DBConnectionHandler;
-import xyz.beerocraft.model.Hop;
-import xyz.beerocraft.model.Fermentable;
+import xyz.beerocraft.model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static xyz.beerocraft.model.Fermentable.*;
@@ -84,7 +77,7 @@ public class MainCtrl implements Initializable {
      * The list view thatr contains the hops
      */
     @FXML
-    private ListView<Hop> hopsListView;
+    private ListView<String> hopsListView;
 
     /**
      * The grid pane of the hop pane
@@ -188,6 +181,37 @@ public class MainCtrl implements Initializable {
     @FXML
     private Button maltDeleteButton;
 
+
+    /**
+     * The type combo box of Hops
+     */
+    @FXML
+    private ComboBox<String> hopTypeComboBox;
+
+    /**
+     * The alpha acid text field of the Hops tab
+     */
+    @FXML
+    private TextField hopAlphaTextField;
+
+    /**
+     * The Modify button of the Hops tab
+     */
+    @FXML
+    private Button hopModifyButton;
+
+    /**
+     * The Add button of the Hop tab
+     */
+    @FXML
+    private Button hopAddButton;
+
+    /**
+     * The delete button of the Hops tab
+     */
+    @FXML
+    private Button hopDeleteButton;
+
     /**
      * the type combo box of the main window
      */
@@ -197,7 +221,9 @@ public class MainCtrl implements Initializable {
     /**
      * The Object wich handle interaction with the DB
      */
-    private FermentableDAO fermentablseDAO;
+    private FermentableDAO fermentablesDAO;
+
+    private HopDAO hopDAO;
 
     @FXML
     private ResourceBundle bundle;
@@ -216,11 +242,16 @@ public class MainCtrl implements Initializable {
         this.bundle = resourceBundle;
 
         DBConnectionHandler dbConnectionHandler = new DBConnectionHandler();
-        fermentablseDAO = new FermentableDAO();
+        fermentablesDAO = new FermentableDAO();
+        this.hopDAO = new HopDAO();
 
         loadMaltsToFermentablesListView();
-        this.fermentablesListView.setItems(malts);
+        this.fermentablesListView.setItems(Fermentable.malts);
         this.textfieldSearchMalts.setPromptText("Weyermann");
+
+        loadHopsToHopsListView();
+        this.hopsListView.setItems(Hop.hops);
+
 
         maltsMouseClicked();
         loadFermentablesTypeToComboBox();
@@ -255,7 +286,7 @@ public class MainCtrl implements Initializable {
 
                 System.out.println("Selectioned malt : " + newValue);
 
-                Fermentable malt = fermentablseDAO.getAllValuesOfAFermentable(newValue);
+                Fermentable malt = fermentablesDAO.getAllValuesOfAFermentable(newValue);
 
                 maltNameTextField.setText(malt.getName());
                 maltEBCTextField.setText(String.valueOf(malt.getEbc()));
@@ -274,28 +305,14 @@ public class MainCtrl implements Initializable {
      */
     @FXML
     private void maltsKeyHasBeenReleased(KeyEvent event) {
-        //TODO refactor vers DAO
+
         String letters = textfieldSearchMalts.getText();
-
-        try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("SELECT name FROM fermentables WHERE name LIKE ?")) {
-            pstmt.setString(1, letters + "%");
-            ResultSet rs = pstmt.executeQuery();
-
-            searchingMalts = null;
-            searchingMalts = FXCollections.observableArrayList();
-
-            while (rs.next()) {
-                searchingMalts.add(rs.getString(1));
-                System.out.println("Malts added to listView : " + rs.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        fermentablesDAO.searchingForFermentable(letters);
 
         if (this.textfieldSearchMalts.getText().equalsIgnoreCase("")) {
-            this.fermentablesListView.setItems(malts);
+            this.fermentablesListView.setItems(Fermentable.malts);
         } else {
-            this.fermentablesListView.setItems(searchingMalts);
+            this.fermentablesListView.setItems(Fermentable.searchingMalts);
         }
     }
 
@@ -305,8 +322,15 @@ public class MainCtrl implements Initializable {
      */
     private void loadMaltsToFermentablesListView() {
 
-        fermentablseDAO.getNameFromDB();
+        fermentablesDAO.loadFermentableToListViewFromName();
 
+    }
+
+    /**
+     * Method that laod the Hops from the db to the HopsListView
+     */
+    private void loadHopsToHopsListView(){
+        hopDAO.loadHopsToListViewFromName();
     }
 
     /**
@@ -372,7 +396,7 @@ public class MainCtrl implements Initializable {
             System.out.println("remove fermentable confirmed");
             String name = fermentablesListView.getSelectionModel().getSelectedItem();
 
-            fermentablseDAO.deleteFermentableOfDB(name);
+            fermentablesDAO.deleteFermentableOfDB(name);
             malts.clear();
             loadMaltsToFermentablesListView();
             fermentablesListView.setItems(malts);
@@ -391,7 +415,7 @@ public class MainCtrl implements Initializable {
         System.out.println("Modify fermentable Button clicked");
 
         String nameOfTheFermentable = fermentablesListView.getSelectionModel().getSelectedItem();
-        Fermentable modifiedMalt = fermentablseDAO.selectFermentableFromName(nameOfTheFermentable);
+        Fermentable modifiedMalt = fermentablesDAO.selectFermentableFromName(nameOfTheFermentable);
 
         if (modifiedMalt != null) {
             String stringEbc = maltEBCTextField.getText();
@@ -410,10 +434,10 @@ public class MainCtrl implements Initializable {
                     modifiedMalt.setPotential(floatPotential);
                     modifiedMalt.setType(stringType);
 
-                    if (floatEbc != fermentablseDAO.getEbcFromDB(modifiedMalt)) {
+                    if (floatEbc != fermentablesDAO.getEbcFromDB(modifiedMalt)) {
                         ;
                         floatLovibond = (floatEbc + 1.2f) / 2.65f;
-                    } else if (floatLovibond != fermentablseDAO.getLovibondFromDB(modifiedMalt)) {
+                    } else if (floatLovibond != fermentablesDAO.getLovibondFromDB(modifiedMalt)) {
                         floatEbc = (floatLovibond * 2.65f) - 1.2f;
                     }
 
@@ -421,7 +445,7 @@ public class MainCtrl implements Initializable {
                     modifiedMalt.setEbc(floatEbc);
                     modifiedMalt.setLovibond(floatLovibond);
 
-                    fermentablseDAO.updateMaltEntry(modifiedMalt);
+                    fermentablesDAO.updateMaltEntry(modifiedMalt);
 
                     malts.clear();
                     loadMaltsToFermentablesListView();
@@ -452,6 +476,56 @@ public class MainCtrl implements Initializable {
         } else {
             System.out.println("Hmm The name has been modify what can I do ? c'est pour ca qu'il faut que jenbtraite aavec l'id");
         }
+    }
+
+    /**
+     * Method that handle the text search field on the Hop tab
+     *
+     * @param event the event listened
+     */
+    @FXML
+    void hopsKeyHasBeenReleased(ActionEvent event) {
+
+        String letters = hopSerchingTextField.getText();
+
+        hopDAO.searchingForHops(letters);
+
+        if (this.hopSerchingTextField.getText().equalsIgnoreCase("")) {
+            this.hopsListView.setItems(Hop.hops);
+        } else {
+            this.hopsListView.setItems(Hop.searchingHops);
+
+        }
+    }
+
+    /**
+     * Method that handle the click on the delete button on the hop tab
+     *
+     * @param event the event listened
+     */
+    @FXML
+    void handleHopDeleteButton(ActionEvent event) {
+
+    }
+
+    /**
+     * Method that handle the click on the modify button on the Hop tab
+     *
+     * @param event the event listened
+     */
+    @FXML
+    void handleHopModifyButton(ActionEvent event) {
+
+    }
+
+    /**
+     * Metghod that handle the click on the add b utton on the Hop tab
+     *
+     * @param event the event listened
+     */
+    @FXML
+    void handleHopAddButton(ActionEvent event) {
+
     }
 
 

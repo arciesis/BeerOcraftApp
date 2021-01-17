@@ -4,12 +4,15 @@
 
 package xyz.beerocraft.model;
 
+import javafx.collections.FXCollections;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import static xyz.beerocraft.model.Fermentable.malts;
+import static xyz.beerocraft.model.Fermentable.searchingMalts;
 
 public class FermentableDAO {
 
@@ -35,6 +38,26 @@ public class FermentableDAO {
             e.printStackTrace();
         }
     }
+
+
+    public void searchingForFermentable(String letters) {
+
+        try (PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("SELECT name FROM fermentables WHERE name LIKE ?")) {
+            pstmt.setString(1, letters + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            Fermentable.searchingMalts = null;
+            Fermentable.searchingMalts = FXCollections.observableArrayList();
+
+            while (rs.next()) {
+                Fermentable.searchingMalts.add(rs.getString(1));
+                System.out.println("Malts added to listView : " + rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Method that delete a fermentables from the db
@@ -82,7 +105,7 @@ public class FermentableDAO {
         return null;
     }
 
-    public void getNameFromDB() {
+    public void loadFermentableToListViewFromName() {
         try {
             String query = "SELECT name FROM fermentables";
             Statement st = DBConnectionHandler.myConn.createStatement();
@@ -90,8 +113,8 @@ public class FermentableDAO {
 
                 while (rs.next()) {
 
-                    System.out.println(rs.getString(1));
-                    malts.add(rs.getString(1));
+                    System.out.println("Fermentable : " + rs.getString(1));
+                    Fermentable.malts.add(rs.getString(1));
 
                 }
             }
@@ -179,7 +202,7 @@ public class FermentableDAO {
     }
 
     public Fermentable getAllValuesOfAFermentable(String nameToSearch) {
-       Fermentable m = new Fermentable();
+        Fermentable m = new Fermentable();
         try {
             PreparedStatement pstmt = DBConnectionHandler.myConn.prepareStatement("SELECT * FROM fermentables WHERE name LIKE ?");
             pstmt.setString(1, nameToSearch);
